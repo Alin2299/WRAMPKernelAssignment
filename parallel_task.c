@@ -2,7 +2,7 @@
 // It allows the user to change the format of that number
 // Andrew Lin, 1610834
 
-// Include the necessary header files
+// Include the necessary header file(s)
 #include "wramp.h"
 
 // Int representing the value of the switches

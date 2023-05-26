@@ -1,6 +1,6 @@
 cSwitchesDemo/
 *.json
 *.o
-*.s
+parallel_task.s
 *.pdf
 *.srec
