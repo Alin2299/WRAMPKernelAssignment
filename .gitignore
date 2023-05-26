@@ -1,3 +1,6 @@
 cSwitchesDemo/
-wramp.h
 *.json
+*.o
+*.s
+*.pdf
+*.srec
