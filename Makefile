@@ -5,12 +5,11 @@ all:
 
 	wcc -S serial_task.c
 	wasm serial_task.s
-		
-	wasm kernel_q3.s
-	wlink -o kernel_q3.srec kernel_q3.o serial_task.o
 
+	wasm kernel_q4.s
+	wlink -o kernel_q4.srec kernel_q4.o serial_task.o
 
 clean:
 	rm parallel_task.s parallel_task.o parallel_task.srec
 	rm serial_task.s serial_task.o
-	rm kernel_q3.o kernel_q3.srec
+	rm kernel_q4.o kernel_q4.srec
