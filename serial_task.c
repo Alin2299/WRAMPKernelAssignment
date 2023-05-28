@@ -5,7 +5,7 @@
 #include "wramp.h"
 
 // Global int variable that represents the system uptime
-int counter = 5123;
+int counter = 0;
 
 // (Global) char variable that specifies what format to display counter in - By default display in seconds to 2dp
 char receivedChar = '1';
