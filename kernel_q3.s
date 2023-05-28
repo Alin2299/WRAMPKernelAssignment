@@ -1,6 +1,9 @@
 .global main                    # Specifies that the main subroutine is globally accessible
 
 main:                           # Main subroutine that setups the timer interrupts
+subui $sp, $sp, 1               # Backup $ra value onto the stack
+sw $ra, 0($sp)
+
 movsg $1, $evec                 # Copy the old handler's address into $1
 sw $1, old_vector($0)           # Save the old handler's address into memory
 la $1, handler                  # Store the (current) handler address into $1
@@ -19,6 +22,10 @@ addi $3, $0, 0x3                # Set $3 to be 3
 sw $3, 0x72000($0)              # Enable auto-restart and enable the Timer using $3 and the Timer Control Register
 
 jal serial_main                 # Jump-and-link to the serial task's main subroutine
+
+lw $ra, 0($sp)                  # Get $ra value from the stack
+addui $sp, $sp, 1
+jr $ra                          # Jump to $ra so we can exit
 
 
 handler:                    	# Subroutine that handles exceptions by determing the type and where to jump to

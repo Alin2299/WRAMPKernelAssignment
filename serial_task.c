@@ -128,6 +128,8 @@ void serial_main()
             printChar(':');
             printChar(digit3);
             printChar(digit4);
+            printChar(' ');
+            printChar(' ');
         }
 
         // If the format is the number of timer interrupts (I.e 3 is pressed), get the appropriate digits/chars to display
@@ -170,13 +172,12 @@ void serial_main()
             printChar(digit4);
             printChar(digit5);
             printChar(digit6);
+            printChar(' ');
         }
 
         // If q is pressed, exit the program by returning
         if (receivedChar == 'q')
             return;
         
-        // Print the newline character
-        printChar('\n');
     }
 }
