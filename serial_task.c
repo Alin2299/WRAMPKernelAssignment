@@ -40,7 +40,7 @@ char receiveChar()
 /**
  * Main subroutine
 */
-void main()
+void serial_main()
 {
     // Infinite (while) loop
     while(1)
