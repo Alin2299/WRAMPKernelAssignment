@@ -1,6 +1,5 @@
 // Program that continually reads the switches' value, and writes it to the SSDs as a 4-digit number
 // It allows the user to change the format of that number
-// Andrew Lin, 1610834
 
 // Include the necessary header file(s)
 #include "wramp.h"
