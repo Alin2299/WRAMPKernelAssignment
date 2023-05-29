@@ -2,5 +2,6 @@ cSwitchesDemo/
 *.json
 *.o
 parallel_task.s
+serial_task.s
 *.pdf
 *.srec

@@ -4,6 +4,11 @@ main:                           # Main subroutine that setups the timer interrup
 subui $sp, $sp, 1               # Backup $ra value onto the stack
 sw $ra, 0($sp)
 
+subui $sp, $sp, 3               # Allocate 3 spaces on the stack
+sw $1, 0($sp)                   # Backup $1, $2 and $3 values onto the stack
+sw $2, 1($sp) 
+sw $3, 2($sp)                  
+
 movsg $1, $evec                 # Copy the old handler's address into $1
 sw $1, old_vector($0)           # Save the old handler's address into memory
 la $1, handler                  # Store the (current) handler address into $1
@@ -23,8 +28,12 @@ sw $3, 0x72000($0)              # Enable auto-restart and enable the Timer using
 
 jal serial_main                 # Jump-and-link to the serial task's main subroutine
 
-lw $ra, 0($sp)                  # Get $ra value from the stack
-addui $sp, $sp, 1
+
+lw $1, 0($sp)                   # Restores register values $1, $2 and $3 from the stack
+lw $2, 1($sp)
+lw $3, 2($sp)
+lw $ra, 3($sp)                  # Get $ra value from the stack
+addui $sp, $sp, 4               # Deallocate 4 spaces on the stack
 jr $ra                          # Jump to $ra so we can exit
 
 
