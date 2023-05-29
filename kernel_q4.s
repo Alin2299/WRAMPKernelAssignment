@@ -26,6 +26,12 @@ main:                           # Main subroutine that setups the timer interrup
 subui $sp, $sp, 1               # Backup $ra value onto the stack
 sw $ra, 0($sp)
 
+subui $sp, $sp, 4               # Allocate 4 spaces on the stack
+sw $1, 0($sp)                   # Backup $1, $2, $3, and $5 values onto the stack
+sw $2, 1($sp) 
+sw $3, 2($sp)      
+sw $5, 3($sp)            
+
 movsg $1, $evec                 # Copy the old handler's address into $1
 sw $1, old_vector($0)           # Save the old handler's address into memory
 la $1, handler                  # Store the (current) handler address into $1
@@ -64,8 +70,12 @@ sw $3, 0x72000($0)              # Enable auto-restart and enable the Timer using
 
 jal load_context                # Jump-and-link to the dispatcher context loader section
  
-lw $ra, 0($sp)                  # Get $ra value from the stack
-addui $sp, $sp, 1
+lw $1, 0($sp)                   # Restores register values $1, $2, $3 and $5 from the stack
+lw $2, 1($sp)
+lw $3, 2($sp)
+lw $5, 3($sp)
+lw $ra, 4($sp)                  # Get $ra value from the stack
+addui $sp, $sp, 5               # Deallocate 5 spaces on the stack
 jr $ra                          # Jump to $ra so we can exit
 
 
