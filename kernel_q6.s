@@ -143,6 +143,8 @@ rfe                             # Return from the exception back to the main pro
 dispatcher:                     # Subroutine that saves current task context, schedules the next task,
                                 # restores the task's context and returns to that task (using rfe)    
 
+addui $sp, $sp, 1               
+
 save_context:                   # Saves the context of the task
 lw $13, current_task($0)        # Get base address of current PCB
 

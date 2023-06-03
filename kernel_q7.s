@@ -59,7 +59,7 @@ sw $1, current_task($0)
 
 la $1, paralleltask_pcb         # Setup PCB for parallel task
 
-la $2, serialtask_pcb           # Setup the link field (with the next task)
+la $2, gametask_pcb             # Setup the link field (with the next task)
 sw $2, pcb_link($1)
 
 la $2, paralleltask_stack       # Setup the stack pointer
@@ -70,6 +70,19 @@ sw $2, pcb_ear($1)
 
 sw $5, pcb_cctrl($1)            # Setup the $cctrl field
 
+
+la $1, gametask_pcb             # Setup PCB for the game task
+
+la $2, serialtask_pcb           # Setup the link field (with the next task)
+sw $2, pcb_link($1)
+
+la $2, gametask_stack           # Setup the stack pointer
+sw $2, pcb_sp($1)
+
+la $2, gameSelect_main          # Setup the $ear field
+sw $2, pcb_ear($1)
+
+sw $5, pcb_cctrl($1)            # Setup the $cctrl field
 
 movsg $2, $cctrl                # Copy the current value of $cctrl into $2
 andi $2, $2, 0x000F             # Disable all interrupts using andi
@@ -179,9 +192,12 @@ movgs $ear, $1
 lw $1, pcb_cctrl($13)           # Restore value of $cctrl
 movgs $cctrl, $1
 
-addi $1, $0, 100                # Set task to have a time-slice of 100
-sw $1, pcb_timeslice($13)
+la $1, gametask_pcb             # Determine the type of task (game or other) and branch to allocate an appropriate timeslice value
+seq $2, $13, $1
+bnez $2, isGameTask
+beqz $2, isOtherTask
 
+finishLoading:
 lw $1, pcb_reg1($13)            # Restore the value of the other registers
 lw $2, pcb_reg2($13)
 lw $3, pcb_reg3($13)            
@@ -198,8 +214,18 @@ lw $12, pcb_reg12($13)
 lw $sp, pcb_sp($13)
 lw $ra, pcb_ra($13)
 
-
 rfe                             # Return to the new task
+
+
+isOtherTask:                    # Subroutine that sets other tasks to have a time-slice of 1
+addi $1, $0, 1                  
+sw $1, pcb_timeslice($13)
+j finishLoading                 # Return back to loading context
+
+isGameTask:                     # Subroutine that sets the game task to have a time-slice of 4
+addi $1, $0, 4                  
+sw $1, pcb_timeslice($13)
+j finishLoading                 # Return back to loading context
 
 
 .bss                            # Section that allows allocation of memory (without initialisation)
@@ -216,9 +242,16 @@ serialtask_pcb:                 # Defines a process control block for the serial
 paralleltask_pcb:               # Defines a process control block for the parallel task
 .space 19
 
+gametask_pcb:                   # Defines a process control block for the game task
+.space 19
+
 
 .space 200                      # Defines a separate stack for the serial task
 serialtask_stack:               
 
 .space 200                      # Defines a separate stack for the parallel task
 paralleltask_stack:               
+
+.space 200                      # Defines a separate stack for the game task
+gametask_stack:               
+
