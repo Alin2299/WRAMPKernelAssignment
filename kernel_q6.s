@@ -59,7 +59,7 @@ sw $1, current_task($0)
 
 la $1, paralleltask_pcb         # Setup PCB for parallel task
 
-la $2, serialtask_pcb           # Setup the link field (with the next task)
+la $2, gametask_pcb             # Setup the link field (with the next task)
 sw $2, pcb_link($1)
 
 la $2, paralleltask_stack       # Setup the stack pointer
@@ -70,6 +70,19 @@ sw $2, pcb_ear($1)
 
 sw $5, pcb_cctrl($1)            # Setup the $cctrl field
 
+
+la $1, gametask_pcb             # Setup PCB for the game task
+
+la $2, serialtask_pcb           # Setup the link field (with the next task)
+sw $2, pcb_link($1)
+
+la $2, gametask_stack           # Setup the stack pointer
+sw $2, pcb_sp($1)
+
+la $2, gameSelect_main          # Setup the $ear field
+sw $2, pcb_ear($1)
+
+sw $5, pcb_cctrl($1)            # Setup the $cctrl field
 
 movsg $2, $cctrl                # Copy the current value of $cctrl into $2
 andi $2, $2, 0x000F             # Disable all interrupts using andi
@@ -214,9 +227,16 @@ serialtask_pcb:                 # Defines a process control block for the serial
 paralleltask_pcb:               # Defines a process control block for the parallel task
 .space 19
 
+gametask_pcb:                   # Defines a process control block for the game task
+.space 19
+
 
 .space 200                      # Defines a separate stack for the serial task
 serialtask_stack:               
 
 .space 200                      # Defines a separate stack for the parallel task
 paralleltask_stack:               
+
+.space 200                      # Defines a separate stack for the game task
+gametask_stack:               
+

@@ -65,7 +65,7 @@ void displayChar()
 /**
  * Main subroutine
  * */ 
-void main()
+void parallel_main()
 {
 
     // Infinite (while) loop

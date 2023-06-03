@@ -118,8 +118,21 @@ dispatcher:                     # Subroutine that saves current task context, sc
 save_context:                   # Saves the context of the task
 lw $13, current_task($0)        # Get base address of current PCB
 
-sw $1, pcb_reg1($13)            # Save registers to use
+sw $1, pcb_reg1($13)            # Save registers
 sw $2, pcb_reg2($13) 
+sw $3, pcb_reg3($13)            
+sw $4, pcb_reg4($13)
+sw $5, pcb_reg5($13)            
+sw $6, pcb_reg6($13)
+sw $7, pcb_reg7($13)            
+sw $8, pcb_reg8($13)
+sw $9, pcb_reg9($13)
+sw $10, pcb_reg10($13)            
+sw $11, pcb_reg11($13)
+sw $12, pcb_reg12($13)
+
+sw $sp, pcb_sp($13)
+sw $ra, pcb_ra($13)
 
 movsg $1, $ers                  # Set $1 to be old value of $13
 sw $1, pcb_reg13($13)           # Save $1 to the PCB
@@ -152,6 +165,19 @@ sw $1, pcb_timeslice($13)
 
 lw $1, pcb_reg1($13)            # Restore the value of the other registers
 lw $2, pcb_reg2($13)
+lw $3, pcb_reg3($13)            
+lw $4, pcb_reg4($13)
+lw $5, pcb_reg5($13)            
+lw $6, pcb_reg6($13)
+lw $7, pcb_reg7($13)            
+lw $8, pcb_reg8($13)
+lw $9, pcb_reg9($13)
+lw $10, pcb_reg10($13)            
+lw $11, pcb_reg11($13)
+lw $12, pcb_reg12($13)
+  
+lw $sp, pcb_sp($13)
+lw $ra, pcb_ra($13)
 
 rfe                             # Return to the new task
 
@@ -165,7 +191,7 @@ old_vector:                     # Defines a "variable" that stores the old excep
 .word 
 
 serialtask_pcb:                 # Defines a process control block for the serial task
-.space 18
+.space 19
 
 .space 200                      # Defines a separate stack for the serial task
 serialtask_stack:               

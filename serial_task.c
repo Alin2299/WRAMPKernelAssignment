@@ -48,6 +48,9 @@ void serial_main()
         // Int variable that is a copy of the global counter for local calculations
         int tempCounter = counter;
 
+        // Char variable that stores the previous format
+        char previousChar = receivedChar;
+
         // Continuously check/get new characters from the second serial port (Checking for format updates)
         receivedChar = receiveChar();
 
@@ -95,11 +98,13 @@ void serial_main()
             printChar('.');
             printChar(digit5);
             printChar(digit6);
+
+            previousChar = '1';
         }
 
         // If the format is minutes and seconds (I.e 2 is pressed), get the appropriate digits/chars to display
         // and display them
-        if (receivedChar == '2')
+        else if (receivedChar == '2')
         {
             int digit4;
             int digit3;
@@ -130,11 +135,13 @@ void serial_main()
             printChar(digit4);
             printChar(' ');
             printChar(' ');
+
+            previousChar = '2';
         }
 
         // If the format is the number of timer interrupts (I.e 3 is pressed), get the appropriate digits/chars to display
         // and display them
-        if (receivedChar == '3')
+        else if (receivedChar == '3')
         {
             int digit6;
             int digit5;
@@ -173,11 +180,17 @@ void serial_main()
             printChar(digit5);
             printChar(digit6);
             printChar(' ');
+
+            previousChar = '3';
         }
 
         // If q is pressed, exit the program by returning
-        if (receivedChar == 'q')
+        else if (receivedChar == 'q')
             return;
+        
+        // Else if a different character is received/input, simply display in the previous format
+        else 
+            receivedChar = previousChar;
         
     }
 }
