@@ -1,4 +1,5 @@
 cSwitchesDemo/
+mtk/
 *.json
 *.o
 parallel_task.s
