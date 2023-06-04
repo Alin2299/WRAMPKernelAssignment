@@ -23,12 +23,16 @@ all:
 	wasm kernel_q8.s
 	wlink -o kernel_q8.srec kernel_q8.o serial_task.o parallel_task.o mtk/gameSelect.o mtk/breakout.o mtk/rocks.o
 
+	wasm kernel_q9.s
+	wlink -o kernel_q9.srec kernel_q9.o serial_task.o parallel_task.o mtk/gameSelect.o mtk/breakout.o mtk/rocks.o
+
 	cp kernel_q3.srec /home/alin2299/Downloads
 	cp kernel_q4.srec /home/alin2299/Downloads
 	cp kernel_q5.srec /home/alin2299/Downloads
 	cp kernel_q6.srec /home/alin2299/Downloads
 	cp kernel_q7.srec /home/alin2299/Downloads
 	cp kernel_q8.srec /home/alin2299/Downloads
+	cp kernel_q9.srec /home/alin2299/Downloads
 
 clean:
 	rm parallel_task.s parallel_task.o
@@ -39,6 +43,7 @@ clean:
 	rm kernel_q6.o kernel_q6.srec
 	rm kernel_q7.o kernel_q7.srec
 	rm kernel_q8.o kernel_q8.srec
+	rm kernel_q9.o kernel_q9.srec
 
 	rm /home/alin2299/Downloads/kernel_q3.srec
 	rm /home/alin2299/Downloads/kernel_q4.srec
@@ -46,3 +51,4 @@ clean:
 	rm /home/alin2299/Downloads/kernel_q6.srec
 	rm /home/alin2299/Downloads/kernel_q7.srec
 	rm /home/alin2299/Downloads/kernel_q8.srec
+	rm /home/alin2299/Downloads/kernel_q9.srec
